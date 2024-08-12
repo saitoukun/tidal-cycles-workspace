@@ -1,0 +1,59 @@
+-- Tutorials
+-- https://tidalcycles.org/docs/patternlib/tutorials/course1/
+-- stop sounds
+hush
+d1 $ silence
+d2 $ silence
+d3 $ silence
+d4 $ silence
+d5 $ silence
+
+
+-------------------------------------------------------------------------------- Week 1
+
+-- Again, we can pick sounds with : and a number
+d1 $ sound "cpu:0 cpu:2 cpu:4 cpu:6 cpu:0 cpu:2 cpu:6 cpu:8"
+
+-- You can also "break down" a step into a subsequence, with []
+-- It works for 'n' patterns too
+d1 $ n "0 1 [5 5 5] 4" # sound "drum"
+
+-- You can 'mark out' regular rhythmic 'feet' with "."
+-- So this:
+d1 $ sound "bd sd . mt ht lt . arpy arpy:4 . snare clap:4 bd"
+
+-- Is another way of saying exactly this:
+d1 $ sound "[bd sd] [mt ht lt] [arpy arpy:4] [snare clap:4 bd]"
+
+-- So the "." breaks up a sequence into parts of equal duration
+
+-- To break down a step _within_ the "." notation, you can still
+-- use [], etc:
+d1 $ sound "bd sd . mt [ht mt] lt . arpy [arpy:4 arpy:5] . snare clap:4 bd"
+
+-- That's the same as:
+d1 $ sound "[bd sd] [mt [ht mt] lt] [arpy [arpy:4 arpy:5]] [snare clap:4 bd]"
+
+-------------------------------------------------------------------------------- Week 2
+
+
+-- speed changes the speed of playback,
+-- e.g. 2 = play the sample twice as fast - which moves the note up an octave
+d1 $ sound "numbers:1 numbers:2 numbers:3 numbers:4" # speed "1 1.5 2 0.5"
+
+-- pan allows us to create stereo effects - 0 = left, 0.5 = middle, 1 = right
+d1 $ sound "numbers:1 numbers:2 numbers:3 numbers:4" # pan "0 0.5 1"
+
+-- It's still global though - setting it on one pattern will
+-- change it everywhere
+-- However, you can pattern it:
+d2 $ n "0(3,8) 8*8" # sound "cpu2"
+  # squiz 5
+  # cps "0.5 1"
+
+-- You can really mess with time in this way!
+d2 $ n "0 [~ 1] 2*2 3 4*3 5 ~ 7" # sound "cpu2"
+    # cps "<0.5 2> [1 0.75] <2 1>"
+
+--------------------------------------------------------------------------------
+
